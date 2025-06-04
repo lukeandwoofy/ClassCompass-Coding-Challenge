@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bebras Challenge UK - Home</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <style>
+    body {
+      background-color: #f8f9fa;
+      font-family: Arial, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .container {
+      max-width: 500px;
+      text-align: center;
+    }
+    .card {
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    .btn-primary {
+      background-color: #007bff;
+      border: none;
+    }
+    .btn-primary:hover {
+      background-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="card">
+      <h1 class="mb-4">Welcome to Bebras Challenge UK</h1>
+      <p>Test your computational thinking with fun HTML challenges!</p>
+      <div class="form-group">
+        <label for="username">Enter your username or admin password:</label>
+        <input type="text" id="username" class="form-control" placeholder="Username or Password">
+      </div>
+      <button onclick="startChallenge()" class="btn btn-primary mb-2">Start Challenge</button>
+      <button onclick="checkAdmin()" class="btn btn-secondary">Access Admin Panel</button>
+      <p id="error" class="text-danger mt-2" style="display: none;"></p>
+    </div>
+  </div>
+
+  <script>
+    function startChallenge() {
+      const username = document.getElementById('username').value.trim();
+      if (!username) {
+        showError('Please enter a username.');
+        return;
+      }
+      localStorage.setItem('currentUser', username);
+      window.location.href = 'challenge.html';
+    }
+
+    function checkAdmin() {
+      const input = document.getElementById('username').value.trim();
+      if (input === 'Developer123') {
+        window.location.href = 'challenge.html?admin=true';
+      } else {
+        showError('Incorrect password.');
+      }
+    }
+
+    function showError(message) {
+      const error = document.getElementById('error');
+      error.textContent = message;
+      error.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
