@@ -3,75 +3,220 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Bebras Challenge UK - Home</title>
+  <title>Bebras Challenge UK - Quiz</title>
+  <link rel="manifest" href="/bebras-challenge-advanced/manifest.json">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
   <style>
     body {
-      background-color: #f8f9fa;
+      background: linear-gradient(135deg, #007bff 0%, #f8f9fa 100%);
       font-family: Arial, sans-serif;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
     }
     .container {
-      max-width: 500px;
-      text-align: center;
+      max-width: 800px;
+      padding: 20px;
     }
-    .card {
+    .question {
       background-color: #fff;
       padding: 20px;
+      margin-bottom: 20px;
       border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     }
-    .btn-primary {
-      background-color: #007bff;
-      border: none;
+    .feedback {
+      display: none;
+      margin-top: 10px;
     }
-    .btn-primary:hover {
-      background-color: #0056b3;
-    }
+    .correct { color: green; }
+    .incorrect { color: red; }
+    #admin-panel { display: none; }
+    .table th, .table td { text-align: center; }
   </style>
 </head>
 <body>
   <div class="container">
-    <div class="card">
-      <h1 class="mb-4">Welcome to Bebras Challenge UK</h1>
-      <p>Test your computational thinking with fun HTML challenges!</p>
-      <div class="form-group">
-        <label for="username">Enter your username or admin password:</label>
-        <input type="text" id="username" class="form-control" placeholder="Username or Password">
+    <header class="text-center mb-4">
+      <h1>Bebras Challenge UK - Mini Edition</h1>
+      <p>Welcome, <span id="username"></span>! Score: <span id="score">0</span>/6</p>
+    </header>
+
+    <!-- Admin Panel -->
+    <div id="admin-panel">
+      <h2>Admin Panel - Scores</h2>
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Username</th>
+            <th>Score</th>
+          </tr>
+        </thead>
+        <tbody id="score-table"></tbody>
+      </table>
+      <button onclick="window.location.href='index.html'" class="btn btn-secondary">Back to Home</button>
+    </div>
+
+    <!-- Quiz Section -->
+    <div id="quiz-section">
+      <!-- Question 1: Pattern Recognition -->
+      <div class="question">
+        <h3>Question 1: HTML Structure</h3>
+        <p>Arrange these HTML tags in the correct order to form a valid webpage structure:</p>
+        <ul>
+          <li><body></li>
+          <li><html></li>
+          <li><head></li>
+        </ul>
+        <select id="q1-answer" class="form-control">
+          <option value="">Select an answer</option>
+          <option value="html,head,body"><html>, <head>, <body></option>
+          <option value="body,head,html"><body>, <head>, <html></option>
+          <option value="head,body,html"><head>, <body>, <html></option>
+        </select>
+        <button onclick="checkAnswer(1)" class="btn btn-primary mt-2">Submit</button>
+        <div id="q1-feedback" class="feedback"></div>
       </div>
-      <button onclick="startChallenge()" class="btn btn-primary mb-2">Start Challenge</button>
-      <button onclick="checkAdmin()" class="btn btn-secondary">Access Admin Panel</button>
-      <p id="error" class="text-danger mt-2" style="display: none;"></p>
+
+      <!-- Question 2: Logic Puzzle -->
+      <div class="question">
+        <h3>Question 2: Debug HTML</h3>
+        <p>This HTML is broken: <code><img src="image.jpg"></img></code>. What's the correct fix?</p>
+        <select id="q2-answer" class="form-control">
+          <option value="">Select an answer</option>
+          <option value="correct"><img src="image.jpg"></option>
+          <option value="wrong1"><img src="image.jpg"><img></option>
+          <option value="wrong2"><image src="image.jpg"></option>
+        </select>
+        <button onclick="checkAnswer(2)" class="btn btn-primary mt-2">Submit</button>
+        <div id="q2-feedback" class="feedback"></div>
+      </div>
+
+      <!-- Question 3: Styling Challenge -->
+      <div class="question">
+        <h3>Question 3: CSS Styling</h3>
+        <p>What CSS rule centers a div horizontally?</p>
+        <select id="q3-answer" class="form-control">
+          <option value="">Select an answer</option>
+          <option value="correct">margin: 0 auto;</option>
+          <option value="wrong1">text-align: center;</option>
+          <option value="wrong2">float: center;</option>
+        </select>
+        <button onclick="checkAnswer(3)" class="btn btn-primary mt-2">Submit</button>
+        <div id="q3-feedback" class="feedback"></div>
+      </div>
+
+      <!-- Question 4: Algorithmic Thinking -->
+      <div class="question">
+        <h3>Question 4: HTML Output</h3>
+        <p>Given this HTML: <code><ul><li>One</li><li>Two</li></ul></code>, what is the rendered output?</p>
+        <select id="q4-answer" class="form-control">
+          <option value="">Select an answer</option>
+          <option value="correct">A bulleted list with "One" and "Two"</option>
+          <option value="wrong1">A numbered list with "One" and "Two"</option>
+          <option value="wrong2">A single line: "One Two"</option>
+        </select>
+        <button onclick="checkAnswer(4)" class="btn btn-primary mt-2">Submit</button>
+        <div id="q4-feedback" class="feedback"></div>
+      </div>
+
+      <!-- Question 5: JavaScript Logic -->
+      <div class="question">
+        <h3>Question 5: JavaScript Task</h3>
+        <p>What JavaScript code changes the text of a div with id="myDiv" to "Hello"?</p>
+        <select id="q5-answer" class="form-control">
+          <option value="">Select an answer</option>
+          <option value="correct">document.getElementById('myDiv').textContent = 'Hello';</option>
+          <option value="wrong1">document.getElementById('myDiv') = 'Hello';</option>
+          <option value="wrong2">document.getElementById('myDiv').style = 'Hello';</option>
+        </select>
+        <button onclick="checkAnswer(5)" class="btn btn-primary mt-2">Submit</button>
+        <div id="q5-feedback" class="feedback"></div>
+      </div>
+
+      <!-- Question 6: CSS Specificity -->
+      <div class="question">
+        <h3>Question 6: CSS Specificity</h3>
+        <p>For a div with class="box" and id="main", which CSS rule has the highest specificity?</p>
+        <select id="q6-answer" class="form-control">
+          <option value="">Select an answer</option>
+          <option value="correct">#main { color: red; }</option>
+          <option value="wrong1">.box { color: blue; }</option>
+          <option value="wrong2">div { color: green; }</option>
+        </select>
+        <button onclick="checkAnswer(6)" class="btn btn-primary mt-2">Submit</button>
+        <div id="q6-feedback" class="feedback"></div>
+      </div>
+
+      <button onclick="window.location.href='index.html'" class="btn btn-secondary">Back to Home</button>
     </div>
   </div>
 
   <script>
-    function startChallenge() {
-      const username = document.getElementById('username').value.trim();
-      if (!username) {
-        showError('Please enter a username.');
-        return;
-      }
-      localStorage.setItem('currentUser', username);
-      window.location.href = 'challenge.html';
+    // Initialize
+    const username = localStorage.getItem('currentUser') || 'Guest';
+    document.getElementById('username').textContent = username;
+    let score = loadScore(username);
+    document.getElementById('score').textContent = score;
+
+    // Check if admin mode
+    const urlParams = new URLSearchParams(window.location.search);
+    if (urlParams.get('admin') === 'true') {
+      document.getElementById('quiz-section').style.display = 'none';
+      document.getElementById('admin-panel').style.display = 'block';
+      displayScores();
     }
 
-    function checkAdmin() {
-      const input = document.getElementById('username').value.trim();
-      if (input === 'Developer123') {
-        window.location.href = 'challenge.html?admin=true';
+    const correctAnswers = {
+      1: 'html,head,body',
+      2: 'correct',
+      3: 'correct',
+      4: 'correct',
+      5: 'correct',
+      6: 'correct'
+    };
+
+    function checkAnswer(questionNumber) {
+      const answer = document.getElementById(`q${questionNumber}-answer`).value;
+      const feedback = document.getElementById(`q${questionNumber}-feedback`);
+      const isCorrect = answer === correctAnswers[questionNumber];
+
+      feedback.style.display = 'block';
+      if (isCorrect) {
+        feedback.textContent = 'Correct! Well done!';
+        feedback.className = 'feedback correct';
+        if (!feedback.dataset.answered) {
+          score++;
+          saveScore(username, score);
+          document.getElementById('score').textContent = score;
+          feedback.dataset.answered = 'true';
+        }
       } else {
-        showError('Incorrect password.');
+        feedback.textContent = 'Incorrect. Try again!';
+        feedback.className = 'feedback incorrect';
       }
     }
 
-    function showError(message) {
-      const error = document.getElementById('error');
-      error.textContent = message;
-      error.style.display = 'block';
+    function saveScore(username, score) {
+      const scores = JSON.parse(localStorage.getItem('bebrasScores') || '{}');
+      scores[username] = score;
+      localStorage.setItem('bebrasScores', JSON.stringify(scores));
+    }
+
+    function loadScore(username) {
+      const scores = JSON.parse(localStorage.getItem('bebrasScores') || '{}');
+      return scores[username] || 0;
+    }
+
+    function displayScores() {
+      const scores = JSON.parse(localStorage.getItem('bebrasScores') || '{}');
+      const table = document.getElementById('score-table');
+      table.innerHTML = '';
+      for (const [user, score] of Object.entries(scores)) {
+        const row = document.createElement('tr');
+        row.innerHTML = `<td>${user}</td><td>${score}/6</td>`;
+        table.appendChild(row);
+      }
+      if (Object.keys(scores).length === 0) {
+        table.innerHTML = '<tr><td colspan="2">No scores yet.</td></tr>';
+      }
     }
   </script>
 </body>
